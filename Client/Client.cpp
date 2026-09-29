@@ -89,6 +89,7 @@ void Client::clearBuffer()
 }
 
 // Sending methods
+/*  GABI
 void Client::send(const std::string &msg)
 {
     std::string fullmsg = msg + "\r\n";
@@ -98,6 +99,7 @@ void Client::send(const std::string &msg)
     if (ret < 0)
         std::cerr << "DEBUG: send() error: " << strerror(errno) << std::endl;
 }
+        */
 
 void Client::sendError(const std::string &code, const std::string &msg)
 {

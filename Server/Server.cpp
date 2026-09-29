@@ -26,7 +26,7 @@ void Server::start()
 {
     signal(SIGINT, handleSignal);
     stopRequested = 0;
-
+    /*  GABI
     server_fd = socket(PF_INET, SOCK_STREAM, 0);
     
     if(server_fd < 0)
@@ -42,7 +42,9 @@ void Server::start()
         close(server_fd);
         return;
     }
+    */
 
+    /*  GABI
     sockaddr_in addr;
     std::memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -55,25 +57,30 @@ void Server::start()
         close(server_fd);
         return;
     }
+    */
 
+    /*  GABI
     if(listen(server_fd, 10) < 0)
     {
         std::cout << "Error: listen failed.\n";
         close(server_fd);
         return;
     }
+    */
 
     std::cout << "Server listening on port: " << port << '\n';
 
+    /* GABI
     std::vector<pollfd> fds;
     pollfd pfd = {};
     pfd.fd = server_fd;
     pfd.events = POLLIN;
     fds.push_back(pfd);
-
+    */
     running = true;
     while(running && !stopRequested)
     {
+        /*  GABI
         int ret = poll(&fds[0], fds.size(), -1);
         if(ret < 0)
         {
@@ -82,7 +89,8 @@ void Server::start()
             std::cout << "Error: poll failed.\n";
             break;
         }
-
+            */
+        /*  GABI
         if(fds[0].revents & POLLIN)
         {
             sockaddr_in client_addr;
@@ -108,6 +116,7 @@ void Server::start()
 
             std::cout << "New client connected: " << client_fd << '\n';
         }
+            */
 
         for(size_t i = 1; i < fds.size(); ++i)
         {
@@ -152,7 +161,7 @@ void Server::start()
                 std::cout << "DEBUG: Looking for newline..." << std::endl;
 
                 size_t pos;
-
+                /* GABI
                 while((pos = buf.find("\r\n")) != std::string::npos || (pos = buf.find("\n")) != std::string::npos)
                 {
                     std::string line = buf.substr(0, pos);
@@ -162,7 +171,7 @@ void Server::start()
 
                     if (line.empty())
                         continue;
-                    
+                    */
                     IrcMessage msg = IrcParser::parse(line);
 
                     std::cout << "DEBUG: Raw line: [" << line << "]" << std::endl;
